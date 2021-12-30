@@ -40,7 +40,7 @@ export const Navigation = () => {
                                     element={<Component/>}
                                 />))
                         }
-                        <Route path='/*' element={<Navigate to='/lazy' replace/>}/>
+                        <Route path='/*' element={<Navigate to={routes[0].to} replace/>}/>
                     </Routes>
                 </div>
             </BrowserRouter>
