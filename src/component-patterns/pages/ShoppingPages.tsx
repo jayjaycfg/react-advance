@@ -3,58 +3,39 @@ import {ProductCard,ProductButtons, ProductImage, ProductTitle} from '../compone
 import '../styles/custom-style.css';
 import {Product} from '../interfaces/interfaces';
 import {products} from '../data/products';
-import {useShoppingCart} from '../hooks/useShoppingCart';
 
 export interface ProductInCart extends Product{
     count: number;
 }
 
+const product = products[0];
+
 export const ShoppingPages = () => {
-
-    const{shoppingCart,productCountChangeHandler} = useShoppingCart();
-
     return (
         <div>
             <h1>Shopping Store</h1>
             <hr/>
-            <div style={{display: 'flex', flexFlow: 'row wrap'}}>
+            <ProductCard
+                className='bg-dark text-white'
+                product={product}
+                initialValues={{
+                    count: 4,
+                    maxCount:10
+                }}>
                 {
-                    products.map(product=>(
-                        <ProductCard
-                            className='bg-dark text-white'
-                            key={product.id}
-                            onChange={productCountChangeHandler}
-                            product={product}
-                            value={shoppingCart[product.id]?.count || 0}>
-                            <ProductImage
-                                className='custom-image'/>
-                            <ProductTitle
-                                className='text-bold'/>
-                            <ProductButtons
-                                className='custom-buttons'/>
-                        </ProductCard>
-                    ))
+                    ({count,reset,isMaxReached,increaseOrDecreaseHandler})=>(
+                        <>
+                            <ProductImage className='custom-image'/>
+                            <ProductTitle className='text-bold'/>
+                            <ProductButtons className='custom-buttons'/>
+                            <button onClick={reset}>reset</button>
+                            <button onClick={()=>increaseOrDecreaseHandler(-2)}>-2</button>
+                            {!isMaxReached && <button onClick={()=>increaseOrDecreaseHandler(+2)}>+2</button>}
+                            <span>{count}</span>
+                        </>
+                    )
                 }
-            </div>
-            <div className="shopping-cart">
-                {
-                  Object.entries(shoppingCart).map(([key,shoppingElement])=>(
-                      <ProductCard
-                          className='bg-dark text-white'
-                          key={key}
-                          onChange={productCountChangeHandler}
-                          product={shoppingElement}
-                          style={{width:'100px'}}
-                          value={shoppingElement.count}>
-                          <ProductImage
-                              className='custom-image'
-                              style={{boxShadow: '10px 10px 10px rgba(0,0,0,.2)'}}/>
-                          <ProductButtons
-                              className='custom-buttons'/>
-                      </ProductCard>
-                  ))
-                }
-            </div>
+            </ProductCard>
         </div>
     );
 };

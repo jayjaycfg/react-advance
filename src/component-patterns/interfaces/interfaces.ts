@@ -12,6 +12,7 @@ export interface Product{
 export interface ProductContextProps {
     counter: number;
     increaseOrDecreaseHandler: (value: number)=>void;
+    initialValues? : InitialValues;
     product: Product
 }
 
@@ -25,4 +26,17 @@ export interface ProductCardHOCProps {
 export interface OnChangeArgs {
     product: Product;
     count: number
+}
+
+export interface InitialValues {
+    count: number;
+    maxCount: number;
+}
+
+export interface ProductCardArgs {
+    count: number;
+    isMaxReached: boolean;
+    product: Product;
+    increaseOrDecreaseHandler: (value: number)=>void;
+    reset:()=>void;
 }
